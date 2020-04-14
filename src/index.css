@@ -1,0 +1,38 @@
+body {
+  background-color: black;
+  color: grey;
+}
+input, button {
+  border-radius: 25px;
+  padding: 5px;
+  width: 33%;
+}
+#password, #passbutton {
+  width: 99%;
+}
+input[type="checkbox"] {
+  width: 100%;
+}
+
+.flexbox {
+  display: flex;
+}
+.row {
+  flex-direction: row;
+}
+.column {
+  flex-direction: column;
+}
+.check-container {
+  padding: 10px;
+  align-items: center;
+}
+.type-command {
+  margin: 0px;
+}
+#logs {
+  color: grey;
+  background-color: black;
+  height: 375px;
+  width: 750px;
+}

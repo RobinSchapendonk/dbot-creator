@@ -1,0 +1,17 @@
+{
+    "name": "hello-express",
+    "version": "0.0.1",
+    "description": "A simple discord bot made by dbot-creator.",
+    "main": "index.js",
+    "scripts": {
+      "start": "node index.js"
+    },
+    "dependencies": {
+      "discord.js": "^12.1.1"
+    },
+    "engines": {
+      "node": "12.x"
+    },
+    "license": "MIT",
+    "private": true
+  }

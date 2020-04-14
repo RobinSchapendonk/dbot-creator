@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Discord Bot Creator (dbot creator)</title>
+  <link rel="stylesheet" href="./index.css">
+  <script src="./script.js" defer></script>
+</head>
+
+<body onload="onLoad()">
+  <div id="top">
+    <a href="https://shortrsg.cf/dbot-creator" target="_blank" style="color: white;padding-right: 25px;">Support server<a href="https://paypal.me/RSchapendonk" target="_blank" style="color: white;padding-right: 25px;">Donate</a>
+  </div>
+  <p id='error'></p>
+  <div id="main" style="display: none;">
+    <header>
+      <h1>Create discord bots without a single line of code!</h1>
+    </header>
+    <h1>Your bots:</h1>
+    <div id="bots"></div>
+    <h1>Create a new bot:</h1>
+    <input id="name" placeholder="your bot's name">
+    <input id="token" placeholder="your bot's token">
+    <input id="prefix" placeholder="your bot's prefix">
+    <input id="status" placeholder="your bot's status">
+    <button onclick="createNew()">Create a new bot</button>
+  </div>
+  <div id="checkBot" style="display: none;">
+    <h1 id="curBot"></h1>
+    <button id="start" onclick="startBot(`${document.getElementById('curBot').innerHTML}`)">Start this bot</button>
+    <button id="stop" style="display: none;">Stop this bot</button>
+    <select size="5" id="logs">
+      <input id="name2" placeholder="your bot's name">
+      <input id="token2" placeholder="your bot's token">
+      <input id="prefix2" placeholder="your bot's prefix">
+      <input id="status2" placeholder="your bot's status">
+      <button onclick="updateBot()">Update this bot</button>
+    </select>
+
+  </div>
+  <div id="new" style="display: none;">
+    <h1>Select the commands you want.</h1>
+    <div class="flexbox column">
+      <h3 class="type-command">Moderation commands:</h3>
+      <div class="flexbox row">
+        <div class="check-container">
+          <p>Kick</p><input type="checkbox" id="kick">
+        </div>
+        <div class="check-container">
+          <p>Ban</p><input type="checkbox" id="ban">
+        </div>
+        <div class="check-container">
+          <p>Warn</p><input type="checkbox" id="warn">
+        </div>
+        <div class="check-container">
+          <p>Purge</p><input type="checkbox" id="purge">
+        </div>
+        <div class="check-container">
+          <p>Say</p><input type="checkbox" id="say">
+        </div>
+      </div>
+      <h3 class="type-command">Role commands:</h3>
+      <div class="flexbox row">
+        <div class="check-container">
+          <p>Addrole</p><input type="checkbox" id="addrole">
+        </div>
+        <div class="check-container">
+          <p>Removerole</p><input type="checkbox" id="removerole">
+        </div>
+      </div>
+      <h3 class="type-command">Information commands:</h3>
+      <div class="flexbox row">
+        <div class="check-container">
+          <p>Whois</p><input type="checkbox" id="whois"><br>
+        </div>
+      </div>
+    </div>
+    <button onclick="saveCommands()">Add the commands</button>
+  </div>
+</body>
+
+</html>

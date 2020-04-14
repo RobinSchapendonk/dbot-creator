@@ -1,0 +1,48 @@
+{
+  "name": "dbot-creator",
+  "version": "0.0.1",
+  "description": "Create a discord bot without a single line of code!",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac dmg",
+    "build-linux": "electron-builder --linux appimage"
+  },
+  "keywords": [],
+  "author": {
+    "name": "RobinSchapendonkGames",
+    "email": "ytrobinsch2@gmail.com"
+  },
+  "build": {
+    "appId": "DBot-Creator.RobinSchapendonkGames",
+    "productName": "DBot Creator",
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "RobinSchapendonkGames",
+        "repo": "dbot-creator"
+      }
+    ]
+  },
+  "license": "MIT",
+  "dependencies": {
+    "discord-rpc": "^3.1.0",
+    "electron-log": "^4.1.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^4.2.5",
+    "fs": "0.0.1-security"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.50",
+    "@electron-forge/maker-deb": "^6.0.0-beta.50",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.50",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.50",
+    "@electron-forge/maker-zip": "^6.0.0-beta.50",
+    "electron": "8.2.1",
+    "electron-builder": "^22.4.1"
+  }
+}
