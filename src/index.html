@@ -9,10 +9,10 @@
 
 <body onload="onLoad()">
   <div id="top">
-    <a href="https://shortrsg.cf/dbot-creator" target="_blank" style="color: white;padding-right: 25px;">Support server<a href="https://paypal.me/RSchapendonk" target="_blank" style="color: white;padding-right: 25px;">Donate</a>
+    <a href="https://shortrsg.cf/dbot-creator" target="_blank" style="color: white;padding-right: 25px;">Support server</a><a href="https://paypal.me/RSchapendonk" target="_blank" style="color: white;padding-right: 25px;">Donate</a>
   </div>
-  <p id='error'></p>
-  <div id="main" style="display: none;">
+  <p id="error"></p>
+  <div id="main">
     <header>
       <h1>Create discord bots without a single line of code!</h1>
     </header>
@@ -23,6 +23,7 @@
     <input id="token" placeholder="your bot's token">
     <input id="prefix" placeholder="your bot's prefix">
     <input id="status" placeholder="your bot's status">
+    <input id="owner" placeholder="your discord id">
     <button onclick="createNew()">Create a new bot</button>
   </div>
   <div id="checkBot" style="display: none;">
@@ -34,6 +35,7 @@
       <input id="token2" placeholder="your bot's token">
       <input id="prefix2" placeholder="your bot's prefix">
       <input id="status2" placeholder="your bot's status">
+      <input id="owner2" placeholder="your discord id">
       <button onclick="updateBot()">Update this bot</button>
     </select>
 
@@ -41,6 +43,7 @@
   <div id="new" style="display: none;">
     <h1>Select the commands you want.</h1>
     <div class="flexbox column">
+
       <h3 class="type-command">Moderation commands:</h3>
       <div class="flexbox row">
         <div class="check-container">
@@ -58,7 +61,14 @@
         <div class="check-container">
           <p>Say</p><input type="checkbox" id="say">
         </div>
+        <div class="check-container">
+          <p>Mute</p><input type="checkbox" id="mute">
+        </div>
+        <div class="check-container">
+          <p>Unmute</p><input type="checkbox" id="unmute">
+        </div>
       </div>
+
       <h3 class="type-command">Role commands:</h3>
       <div class="flexbox row">
         <div class="check-container">
@@ -68,12 +78,31 @@
           <p>Removerole</p><input type="checkbox" id="removerole">
         </div>
       </div>
+
       <h3 class="type-command">Information commands:</h3>
       <div class="flexbox row">
         <div class="check-container">
           <p>Whois</p><input type="checkbox" id="whois"><br>
         </div>
       </div>
+
+      <h3 class="type-command">Economy commands:</h3>
+      <div class="flexbox row">
+        <div class="check-container">
+          <p>Balance</p><input type="checkbox" id="balance"><br>
+        </div>
+        <div class="check-container">
+          <p>Work</p><input type="checkbox" id="work"><br>
+        </div>
+      </div>
+
+      <h3 class="type-command">Owner commands:</h3>
+      <div class="flexbox row">
+        <div class="check-container">
+          <p>Eval</p><input type="checkbox" id="eval"><br>
+        </div>
+      </div>
+
     </div>
     <button onclick="saveCommands()">Add the commands</button>
   </div>

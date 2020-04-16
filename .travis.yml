@@ -13,7 +13,7 @@ script:
 before_deploy:	
 - git config --local user.name "RobinSchapendonkGames"	
 - git config --local user.email "ytrobinsch2@gmail.com"	
-- export TRAVIS_TAG=v0.0.1	
+- export TRAVIS_TAG=v0.0.2
 - git tag $TRAVIS_TAG
 deploy:	
   provider: releases	

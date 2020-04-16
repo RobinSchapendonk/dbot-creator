@@ -24,9 +24,10 @@ function createNew() {
 	const token = document.getElementById('token').value;
 	const prefix = document.getElementById('prefix').value;
 	const status = document.getElementById('status').value;
+	const owner = document.getElementById('owner').value;
 	// eslint-disable-next-line quotes
 	if(token.includes('"') || prefix.includes('"') || name.includes('/')) return error(`The character " and \ aren't allowed!`);
- 	if(!name || !token || !prefix || !status) return error('Make sure to fill in every field!');
+ 	if(!name || !token || !prefix || !status || !owner) return error('Make sure to fill in every field!');
 	const electron = require('electron');
 	const defaultPath = (electron.app || electron.remote.app).getPath('userData');
 	const path = defaultPath + '/bots/' + name;
@@ -40,7 +41,7 @@ function createNew() {
 	fs.mkdirSync(path);
 	document.getElementById('main').style = 'display: none';
 	document.getElementById('new').style = '';
-	saveFile(`${path}/settings.json`, `{"token":"${token}","prefix":"${prefix}","status":"${status}"}`);
+	fs.writeFileSync(`${path}/settings.json`, `{"token":"${token}","prefix":"${prefix}","status":"${status}","owner":"${owner}"}`, { encoding:'utf8', flag:'w' });
 	const { ipcRenderer } = require('electron');
 	ipcRenderer.send('event', 'new');
 }
@@ -52,9 +53,10 @@ function updateBot() {
 	const token = document.getElementById('token2').value;
 	const prefix = document.getElementById('prefix2').value;
 	const status = document.getElementById('status2').value;
+	const owner = document.getElementById('owner2').value;
 	// eslint-disable-next-line quotes
 	if(token.includes('"') || prefix.includes('"') || name.includes('/')) return error(`The character " and \ aren't allowed!`);
-	if(!name || !token || !prefix || !status) return error('Make sure to fill in every field!');
+	if(!name || !token || !prefix || !status || !owner) return error('Make sure to fill in every field!');
 	const electron = require('electron');
 	const defaultPath = (electron.app || electron.remote.app).getPath('userData');
 	const oldPath = defaultPath + '/bots/' + oldName;
@@ -64,7 +66,7 @@ function updateBot() {
 		fs.renameSync(oldPath, path);
 		checkBot(name);
 	}
-	saveFile(`${path}/settings.json`, `{"token":"${token}","prefix":"${prefix}","status":"${status}"}`);
+	fs.writeFileSync(`${path}/settings.json`, `{"token":"${token}","prefix":"${prefix}","status":"${status}","owner":"${owner}"}`, { encoding:'utf8', flag:'w' });
 	const { ipcRenderer } = require('electron');
 	ipcRenderer.send('event', 'update');
 }
@@ -83,14 +85,28 @@ function saveCommands() {
 	if (!fs.existsSync(path)) {
 		return error('It seems like something went wrong, please try again!');
 	}
+	// Moderation
 	const kick = document.getElementById('kick').checked;
 	const ban = document.getElementById('ban').checked;
 	const warn = document.getElementById('warn').checked;
 	const purge = document.getElementById('purge').checked;
 	const say = document.getElementById('say').checked;
+	const mute = document.getElementById('mute').checked;
+	const unmute = document.getElementById('unmute').checked;
+
+	// Roles
 	const addrole = document.getElementById('addrole').checked;
 	const removerole = document.getElementById('removerole').checked;
+
+	// Information
 	const whois = document.getElementById('whois').checked;
+
+	// Economy
+	const balance = document.getElementById('balance').checked;
+	const work = document.getElementById('work').checked;
+
+	// Owner
+	const eval = document.getElementById('eval').checked;
 	if (!fs.existsSync(path + '/commands')) {
 		fs.mkdirSync(path + '/commands');
 	}
@@ -109,26 +125,40 @@ function saveCommands() {
 	if(say) {
 		saveFile(`${path}/commands/say.js`, './src/files/commands/say.js');
 	}
+	if(mute) {
+		saveFile(`${path}/commands/mute.js`, './src/files/commands/mute.js');
+	}
+	if(unmute) {
+		saveFile(`${path}/commands/unmute.js`, './src/files/commands/unmute.js');
+	}
+
 	if(addrole) {
 		saveFile(`${path}/commands/addrole.js`, './src/files/commands/addrole.js');
 	}
 	if(removerole) {
 		saveFile(`${path}/commands/removerole.js`, './src/files/commands/removerole.js');
 	}
+
 	if(whois) {
 		saveFile(`${path}/commands/whois.js`, './src/files/commands/whois.js');
+	}
+
+	if(balance) {
+		saveFile(`${path}/commands/balance.js`, './src/files/commands/balance.js');
+	}
+	if(work) {
+		saveFile(`${path}/commands/work.js`, './src/files/commands/work.js');
+	}
+
+	if(eval) {
+		saveFile(`${path}/commands/eval.js`, './src/files/commands/eval.js');
 	}
 	saveFile(`${path}/index.js`, './src/files/others/index.js');
 	saveFile(`${path}/package.json`, './src/files/others/package.json');
 	saveFile(`${path}/commands/help.js`, './src/files/commands/help.js');
-	document.getElementById('kick').checked = false;
-	document.getElementById('ban').checked = false;
-	document.getElementById('warn').checked = false;
-	document.getElementById('purge').checked = false;
-	document.getElementById('say').checked = false;
-	document.getElementById('addrole').checked = false;
-	document.getElementById('removerole').checked = false;
-	document.getElementById('whois').checked = false;
+	['kick', 'ban', 'warn', 'purge', 'say', 'mute', 'unmute', 'addrole', 'removerole', 'whois', 'balance', 'work', 'eval'].forEach((command) => {
+		document.getElementById(command).checked = false;
+	});
 	document.getElementById('main').style = '';
 	document.getElementById('new').style = 'display: none';
 	onLoad();
@@ -150,6 +180,7 @@ function checkBot(name) {
 	document.getElementById('token2').value = data.token;
 	document.getElementById('prefix2').value = data.prefix;
 	document.getElementById('status2').value = data.status;
+	document.getElementById('owner2').value = data.owner;
 	document.getElementById('curBot').innerHTML = name;
 	document.getElementById('main').style = 'display: none';
 	document.getElementById('checkBot').style = '';
@@ -211,10 +242,10 @@ function startBot(name) {
 	}
 }
 
-function saveFile(path, contents) {
+function saveFile(NEW, OLD) {
 	const fs = require('fs');
 	try {
-		fs.writeFileSync(path, contents, { encoding:'utf8', flag:'w' });
+		fs.copyFileSync(OLD, NEW, { encoding:'utf8', flag:'w' });
 	} catch(e) {
 		return error('Failed to save the file!' + e);
 	}

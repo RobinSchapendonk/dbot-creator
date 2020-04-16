@@ -6,7 +6,8 @@ module.exports.run = async (prefix, client, message, args) => {
 	}
 	if (!args[0]) {
 		const moderationArr = [],
-			informationArr = [];
+			informationArr = [],
+			economyArr = [];
 		client.cmdhelp
 			.filter((cmd) => cmd.category === 'Moderation')
 			.forEach((cmd) => {
@@ -17,11 +18,17 @@ module.exports.run = async (prefix, client, message, args) => {
 			.forEach((cmd) => {
 				informationArr.push(cmd.name);
 			});
+		client.cmdhelp
+			.filter((cmd) => cmd.category === 'Economy')
+			.forEach((cmd) => {
+				informationArr.push(cmd.name);
+			});
 		const embed = new client.discord.MessageEmbed()
-			.setThumbnail(member.user.avatarURL())
-			.setColor('random')
-			.addField('Moderation commands', moderationArr.join('\n'), true)
-			.addField('Information commands', informationArr.join('\n'), true);
+			.setThumbnail(message.member.user.avatarURL())
+			.setColor('random');
+		if(moderationArr.length > 0) embed.addField('Moderation commands', moderationArr.join('\n'), true);
+		if(informationArr.length > 0) embed.addField('Information commands', informationArr.join('\n'), true);
+		if(economyArr.length > 0) embed.addField('Economy commands', economyArr.join('\n'), true);
 		message.channel.send(embed);
 	} else {
 		const cmd = client.cmdhelp.filter((cm) => cm.name === args[0]).first();

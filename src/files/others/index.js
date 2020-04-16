@@ -1,12 +1,16 @@
 const discord = require('discord.js');
 const fs = require('fs');
+const sqlite3 = require('sqlite3');
+
 const config = require('./settings.json');
+const database = new sqlite3.Database('database.db');
 
 const client = new discord.Client({ disableMentions: 'all' });
 client.commands = new discord.Collection();
 client.cmdhelp = new discord.Collection();
 client.config = config;
 client.discord = discord;
+client.database = database;
 client.login(config.token);
 
 client.loadCommands = () => {
@@ -28,6 +32,9 @@ client.loadCommands = () => {
 client.on('ready', () => {
 	client.loadCommands();
 	client.user.setActivity(config.status, { type: 'LISTENING' });
+	database.serialize(function() {
+		database.run('CREATE TABLE if not exists economy (user TEXT, balance TEXT, lastwork TEXT)');
+	});
 });
 
 client.on('message', (message) => {
